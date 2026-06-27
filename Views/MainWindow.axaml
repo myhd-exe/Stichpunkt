@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Stichpunkt.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="850"
+        Width="1280"
+        Height="850"
+        x:Class="Stichpunkt.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        CanResize="False"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Stichpunkt">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <ContentControl x:Name="PageHost">
+<Grid ShowGridLines="True">
+    <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="350"/>
+    <ColumnDefinition/>
+    <ColumnDefinition Width="350"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+    <RowDefinition Height="150"/>
+    <RowDefinition Height="200"/>
+    <RowDefinition />
+    <RowDefinition Height="150"/>
+    </Grid.RowDefinitions>
+        <Image
+        Grid.RowSpan="4"
+        Grid.ColumnSpan="3"
+        Source="/Assets/table.png"
+        Stretch="Fill"/>
+    <Image 
+    Source="avares://Stichpunkt/Assets/StichpunktLOGO.png" 
+    Grid.Row="1" 
+    Grid.Column="1"
+    Height="400"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"/>
+                    <Button Content="Spiel starten"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                        Width="220"
+                        Height="40"
+                        FontSize="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Click="StartGame_Click"/>
+    
+
+</Grid>
+
+</ContentControl>
+
+</Window>

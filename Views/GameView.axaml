@@ -1,0 +1,965 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Stichpunkt.Views.GameView">
+
+<Grid>
+
+    <!-- Grundaufteilung des Spielfelds -->
+    <Grid.RowDefinitions>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="120"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="120"/>
+        <RowDefinition Height="30"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="30"/>
+        <ColumnDefinition Width="120"/>
+        <ColumnDefinition Width="215"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="215"/>
+        <ColumnDefinition Width="120"/>
+        <ColumnDefinition Width="30"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Hintergrundbild -->
+    <Image
+        Grid.RowSpan="5"
+        Grid.ColumnSpan="7"
+        Source="/Assets/table.png"
+        Stretch="Fill"/> 
+    
+    <!-- OBEN: 7 Kartenplätze -->
+    <Grid Grid.Row="1" Grid.Column="3" Margin="10">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+    <!-- OBEN: 1 PLATZ -->
+        <Border Grid.Column="0"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard7"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 2 PLATZ -->
+        <Border Grid.Column="1"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard8"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 3 PLATZ -->
+        <Border Grid.Column="2"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard9"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 4 PLATZ -->
+        <Border Grid.Column="3"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard10"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 5 PLATZ -->
+        <Border Grid.Column="4"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard11"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 6 PLATZ -->
+        <Border Grid.Column="5"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard12"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- OBEN: 7 PLATZ -->
+        <Border Grid.Column="6"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard13"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+
+    </Grid>
+
+    <!-- UNTEN: 7 Kartenplätze(von Links nach Rechts) -->
+    <Grid Grid.Row="3" Grid.Column="3" Margin="10">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+<!-- UNTEN: 1 PLATZ -->
+    <Border     Grid.Column="0"
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="0"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+    <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                 BorderBrush="Transparent"
+                 BorderThickness="0"
+                 Padding="0">
+
+        <Image Width="324"
+               Height="500"
+               Stretch="Uniform"
+               IsHitTestVisible="False"
+               Source="{Binding #HandCard0.Source}" />
+               </ToolTip>
+    </ToolTip.Tip>
+
+    <Image x:Name="HandCard0"
+           Width="80"
+           Height="124"
+           Stretch="Uniform" />
+
+    </Border>
+<!-- UNTEN: 2 PLATZ -->
+    <Border     Grid.Column="1"
+                Width= "80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="1"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+        <ToolTip.Tip>
+            <ToolTip Background ="Transparent"
+                     BorderBrush="Transparent"
+                     BorderThickness="0"
+                     Padding="0">
+
+            <Image  Width="324"
+                    Height="500"
+                    Stretch="Uniform"
+                    IsHitTestVisible="False"
+                    Source="{Binding #HandCard1.Source}"/>
+            </ToolTip>
+        </ToolTip.Tip>
+        <Image  x:Name="HandCard1"
+                Width="80"
+                Height="124"
+                Stretch="Uniform" />
+    </Border>
+<!-- UNTEN: 3 PLATZ -->
+        <Border Grid.Column="2"  
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="2"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #HandCard2.Source}"/>
+                    
+                </ToolTip>
+            </ToolTip.Tip>
+            <Image x:Name="HandCard2"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform" />
+            
+        </Border>
+<!-- UNTEN: 4 PLATZ -->
+        <Border Grid.Column="3"
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="3"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #HandCard3.Source}"/>
+                </ToolTip>
+            </ToolTip.Tip>
+        <Image x:Name="HandCard3"
+               Width="80"
+               Height="124"
+               Stretch="Uniform"/>
+        </Border>
+<!-- UNTEN: 5 PLATZ -->
+        <Border Grid.Column="4"
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="4"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #HandCard4.Source}"/>
+                </ToolTip>
+            </ToolTip.Tip>
+        <Image x:Name="HandCard4"
+               Width="80"
+               Height="124"
+               Stretch="Uniform"/>
+        </Border>
+<!-- UNTEN: 6 PLATZ -->
+        <Border Grid.Column="5"
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="5"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #HandCard5.Source}"/>
+                </ToolTip>
+            </ToolTip.Tip>
+        <Image x:Name="HandCard5"
+               Width="80"
+               Height="124"
+               Stretch="Uniform"/>
+        </Border>
+<!-- UNTEN: 7 PLATZ -->
+        <Border Grid.Column="6"
+                Width="80"
+                Height="124"
+                Background="Transparent"
+                Tapped="HandCard_Tapped"
+                Tag="6"
+                ToolTip.Placement="Top"
+                ToolTip.ShowDelay="100"
+                ToolTip.VerticalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #HandCard6.Source}"/>
+                </ToolTip>
+            </ToolTip.Tip>
+        <Image x:Name="HandCard6"
+               Width="80"
+               Height="124"
+               Stretch="Uniform"/>
+        </Border>
+
+    </Grid>
+
+    <!-- LINKS: 7 Kartenplätze -->
+    <Grid Grid.Row="2" Grid.Column="1" Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+    <!-- LINKS: 1 PLATZ -->
+        <Border Grid.Row="0"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard0"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 2 PLATZ -->
+        <Border Grid.Row="1"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard1"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 3 PLATZ -->
+        <Border Grid.Row="2"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard2"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 4 PLATZ -->
+        <Border Grid.Row="3"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard3"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 5 PLATZ -->
+        <Border Grid.Row="4"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard4"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 6 PLATZ -->
+        <Border Grid.Row="5"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard5"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- LINKS: 7 PLATZ -->
+        <Border Grid.Row="6"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard6"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+
+
+    </Grid>
+
+    <!-- RECHTS: 7 Kartenplätze -->
+    <Grid Grid.Row="2" Grid.Column="5" Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+    <!-- RECHTS: 1 PLATZ -->
+        <Border Grid.Row="0"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard14"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 2 PLATZ -->
+        <Border Grid.Row="1"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard15"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 3 PLATZ -->
+        <Border Grid.Row="2"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard16"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 4 PLATZ -->
+        <Border Grid.Row="3"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard17"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 5 PLATZ -->
+        <Border Grid.Row="4"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard18"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 6 PLATZ -->
+        <Border Grid.Row="5"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard19"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    <!-- RECHTS: 7 PLATZ -->
+        <Border Grid.Row="6"
+                Width="80"
+                Height="124"
+                Background="Transparent">
+
+            <Image x:Name="EnemyHandCard20"
+                   Width="80"
+                   Height="124"
+                   Stretch="Uniform"
+                   RenderTransformOrigin="50%,50%">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="-90"/>
+                </Image.RenderTransform>
+            </Image>
+            
+        </Border>
+    </Grid>
+    
+    <!-- Trumpf Reihenfloge-->
+    <Grid Grid.Row="3"
+      Grid.Column="4"
+      Width="215"
+      Height="120">
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="90"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="20"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="20"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="20"/>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Header -->
+    <Image     Grid.Row="0"
+               Grid.Column="0"
+               Grid.ColumnSpan="7"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="avares://Stichpunkt/Assets/Trumpf/Header.png"
+               Stretch="Uniform"/>
+
+    <!-- TRUMPF 1 -->
+    <Image Grid.Row="1"
+           Grid.Column="0"
+           x:Name="Trumpf1"
+           Stretch="Uniform"
+           Source="avares://Stichpunkt/Assets/Trumpf/Mensch.png"/>
+
+    <!-- Pfeil -->
+    <Image Grid.Row="1"
+           Grid.Column="1"
+           Width="18"
+           Height="18"
+           Stretch="Uniform"
+           VerticalAlignment="Center"
+           Source="avares://Stichpunkt/Assets/Trumpf/Arrow.png"/>
+
+    <!-- TRUMPF 2 -->
+    <Image Grid.Row="1"
+           Grid.Column="2"
+           x:Name="Trumpf2"
+           Stretch="Uniform"
+           Source="avares://Stichpunkt/Assets/Trumpf/Goblin.png"/>
+
+    <!-- Pfeil -->
+    <Image Grid.Row="1"
+           Grid.Column="3"
+           Width="18"
+           Height="18"
+           Stretch="Uniform"
+           VerticalAlignment="Center"
+           Source="avares://Stichpunkt/Assets/Trumpf/Arrow.png"/>
+
+    <!-- TRUMPF 3 -->
+    <Image Grid.Row="1"
+           Grid.Column="4"
+           x:Name="Trumpf3"
+           Stretch="Uniform"
+           Source="avares://Stichpunkt/Assets/Trumpf/Daemon.png"/>
+
+    <!-- Pfeil -->
+    <Image Grid.Row="1"
+           Grid.Column="5"
+           Width="18"
+           Height="18"
+           Stretch="Uniform"
+           VerticalAlignment="Center"
+           Source="avares://Stichpunkt/Assets/Trumpf/Arrow.png"/>
+
+    <!-- TRUMPF 4 -->
+    <Image Grid.Row="1"
+           Grid.Column="6"
+           x:Name="Trumpf4"
+           Stretch="Uniform"
+           Source="avares://Stichpunkt/Assets/Trumpf/Ork.png"/>
+
+
+
+    </Grid>
+    
+    <!-- SPIELMITTE-->
+    <Grid  Grid.Row="2"
+            Grid.Column="3"
+            ShowGridLines="False">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="124"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="124"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+        <!--GESPIELTE KARTE: Gegner 2-->
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Width="80"
+                    Height="124"
+                    BorderBrush="Gold"
+                    BorderThickness="1"
+                    RenderTransformOrigin="50%,50%" >
+
+                    <Image  x:Name = "PlayedEnemy2"
+                            Width="80"
+                            Height="124">
+                             <Image.RenderTransform>
+                                <RotateTransform Angle="180"/>
+                            </Image.RenderTransform>
+
+                    </Image>     
+                    
+            </Border>
+        <!--NAME: Gegner 2 -->
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    RenderTransformOrigin="50%,50%">
+
+                    <Image  Source="avares://Stichpunkt/Assets/Names/2.png"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            x:Name="Enemy2Name">
+
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Image.RenderTransform>
+                    
+                    </Image>
+                              
+            </Border>
+        <!--GESPIELTE KARTE: Spieler -->
+            <Border Grid.Row="5"
+                    Grid.Column="1"
+                    Width="80"
+                    Height="124"
+                    BorderBrush="Gold"
+                    BorderThickness="1">
+
+                    <Image  x:Name = "PlayedCardPlayer"
+                            Width="80"
+                            Height="124"/>          
+            </Border>
+        <!--NAME: Spieler -->
+            <Border Grid.Row="5"
+                    Grid.Column="2">
+
+                    <Image  Source="avares://Stichpunkt/Assets/Names/0.png"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            x:Name = "PlayerName"/>
+                              
+            </Border>
+        <!--AKTIONSFELD MITTE-->
+            <Border Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    BorderBrush="Gold"
+                    BorderThickness="1"
+                    x:Name = "ActionField">
+            
+            </Border>
+        
+    
+    </Grid>
+
+    <!-- GESPIELTE KARTE: Gegner 1-->
+    <Grid   Grid.Row="2"
+            Grid.Column="2"
+            ShowGridLines="False">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="124"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                Width="124"
+                Height="80"
+                BorderBrush="Gold"
+                BorderThickness="1"
+                RenderTransformOrigin="50,50"
+                ToolTip.Placement="Right"
+                ToolTip.ShowDelay="100"
+                ToolTip.HorizontalOffset="10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #PlayedEnemy1.Source}" />
+                </ToolTip>
+            </ToolTip.Tip>
+
+                    <Image  x:Name = "PlayedEnemy1"
+                            Width="80"
+                            Height="124">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="90"/>
+                            </Image.RenderTransform>
+                    </Image>     
+
+        </Border>
+                <!--NAME: Gegner 1 -->
+            <Border Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    RenderTransformOrigin="50%,50%">
+
+                    <Image  Source="avares://Stichpunkt/Assets/Names/1.png"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Stretch="Uniform"
+                            x:Name="Enemy1Name">
+
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Image.RenderTransform>
+                    
+                    </Image>
+                              
+            </Border>
+    </Grid>
+
+    <!-- GESPIELTE KARTE: Gegner 3-->
+    <Grid   Grid.Row="2"
+            Grid.Column="4"
+            ShowGridLines="False">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="124"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                BorderBrush="Gold"
+                BorderThickness="1"
+                RenderTransformOrigin="50,50">
+
+                    <Image  x:Name = "PlayedEnemy3"
+                            Width="80"
+                            Height="124">
+                             <Image.RenderTransform>
+                                <RotateTransform Angle="-90"/>
+                            </Image.RenderTransform>                    
+                    </Image>   
+                
+        </Border>
+
+        <!--NAME: Gegner 3 -->
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    RenderTransformOrigin="50%,50%">
+
+                    <Image  Source="avares://Stichpunkt/Assets/Names/3.png"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center"
+                            Stretch="Uniform"
+                            x:Name="Enemy3Name">
+
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Image.RenderTransform>
+                    
+                    </Image>
+                              
+            </Border>
+    </Grid>
+</Grid>
+</UserControl>
