@@ -186,7 +186,7 @@
                 Tag="0"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
     <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -217,7 +217,7 @@
                 Tag="1"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
         <ToolTip.Tip>
             <ToolTip Background ="Transparent"
                      BorderBrush="Transparent"
@@ -245,7 +245,7 @@
                 Tag="2"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
             <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -276,7 +276,7 @@
                 Tag="3"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
             <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -305,7 +305,7 @@
                 Tag="4"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
             <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -334,7 +334,7 @@
                 Tag="5"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
             <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -363,7 +363,7 @@
                 Tag="6"
                 ToolTip.Placement="Top"
                 ToolTip.ShowDelay="100"
-                ToolTip.VerticalOffset="10">
+                ToolTip.VerticalOffset="-10">
 
             <ToolTip.Tip>
                 <ToolTip Background="Transparent"
@@ -765,7 +765,6 @@
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
         <!--GESPIELTE KARTE: Gegner 2-->
             <Border Grid.Row="1"
                     Grid.Column="1"
@@ -773,7 +772,25 @@
                     Height="124"
                     BorderBrush="Gold"
                     BorderThickness="1"
-                    RenderTransformOrigin="50%,50%" >
+                    RenderTransformOrigin="50%,50%" 
+                    ToolTip.Placement="Bottom"
+                    ToolTip.ShowDelay="100"
+                    ToolTip.HorizontalOffset="-10">
+
+                <ToolTip.Tip>
+                    <ToolTip Background="Transparent"
+                             BorderBrush="Transparent"
+                             BorderThickness="0"
+                             Padding="0">
+
+                        <Image Width="324"
+                               Height="500"
+                               Stretch="Uniform"
+                               IsHitTestVisible="False"
+                               Source="{Binding #PlayedEnemy2.Source}" />
+                    </ToolTip>
+                </ToolTip.Tip>
+
 
                     <Image  x:Name = "PlayedEnemy2"
                             Width="80"
@@ -802,13 +819,45 @@
                     </Image>
                               
             </Border>
+            <!--Nächste Runde -->
+            <Border Grid.Row="5"
+                    Grid.Column="0">
+
+                    <Image  x:Name = "nextRound"
+                    Tapped="NextRound_Tapped"
+                    Source = "avares://Stichpunkt/Assets/naechsteRunde.png"
+                    VerticalAlignment="Center"
+                    IsHitTestVisible="False"
+                    IsVisible="False"
+                    HorizontalAlignment="Center"
+                    />
+                    
+                    
+            </Border>
         <!--GESPIELTE KARTE: Spieler -->
             <Border Grid.Row="5"
                     Grid.Column="1"
                     Width="80"
                     Height="124"
                     BorderBrush="Gold"
-                    BorderThickness="1">
+                    BorderThickness="1"
+                    ToolTip.Placement="Top"
+                    ToolTip.ShowDelay="100"
+                    ToolTip.VerticalOffset="-10">
+
+                <ToolTip.Tip>
+                    <ToolTip Background="Transparent"
+                             BorderBrush="Transparent"
+                             BorderThickness="0"
+                             Padding="0">
+
+                        <Image Width="324"
+                               Height="500"
+                               Stretch="Uniform"
+                               IsHitTestVisible="False"
+                               Source="{Binding #PlayedCardPlayer.Source}" />
+                    </ToolTip>
+                </ToolTip.Tip>
 
                     <Image  x:Name = "PlayedCardPlayer"
                             Width="80"
@@ -829,8 +878,12 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     BorderBrush="Gold"
-                    BorderThickness="1"
-                    x:Name = "ActionField">
+                    BorderThickness="1">
+
+                        <Image x:Name="ActionField"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        IsVisible="False"/>
             
             </Border>
         
@@ -929,7 +982,24 @@
                 Grid.Row="1"
                 BorderBrush="Gold"
                 BorderThickness="1"
-                RenderTransformOrigin="50,50">
+                RenderTransformOrigin="50,50"
+                ToolTip.Placement="Left"
+                ToolTip.ShowDelay="100"
+                ToolTip.HorizontalOffset="-10">
+
+            <ToolTip.Tip>
+                <ToolTip Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Padding="0">
+
+                    <Image Width="324"
+                           Height="500"
+                           Stretch="Uniform"
+                           IsHitTestVisible="False"
+                           Source="{Binding #PlayedEnemy3.Source}" />
+                </ToolTip>
+            </ToolTip.Tip>
 
                     <Image  x:Name = "PlayedEnemy3"
                             Width="80"

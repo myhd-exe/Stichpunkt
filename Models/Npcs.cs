@@ -21,7 +21,7 @@ public class Npcs
         {
             foreach (Card test in enemyHand)
             {
-                if ((test.Color == requiredColor) ||  (test.Color == "Neutral" && requiredColor!="Neutral") ) 
+                if ((test.Color == requiredColor) ||  (test.Color == "Neutral") ) 
                 {
                     haveColor = true;
                     useableColor.Add(test);

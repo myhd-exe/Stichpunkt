@@ -6,23 +6,9 @@ using Stichpunkt.Views;
 
 namespace Stichpunkt.Models
 {
-    internal class GameManager
+    public class GameManager
     {
-        public static List<Trumpf> TrumpOrder()
-        {
-            Random rdm = new Random();
-            List<Trumpf> trumpOrder = new List<Trumpf>();
-            List<string> classes =  new List<string>{ "Mensch", "Goblin", "Daemon", "Ork" };
-            for (int i = 0; i < 4; i++)
-            {
 
-                int rdmClass = rdm.Next(0, classes.Count);
-                string temp = classes[rdmClass];
-                trumpOrder.Add(new Trumpf(temp, i + 1, temp));
-                classes.Remove(temp);
-            }
-            return trumpOrder;
-        }
 
         public static List<List<Card>> chooseOrder(DeckManager deckManager)
         {

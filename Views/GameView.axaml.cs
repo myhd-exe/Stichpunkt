@@ -6,6 +6,7 @@ using Avalonia.Input;
 using System;
 using System.Collections.Generic;
 using Stichpunkt.Rules;
+using System.Threading.Tasks;
 
 namespace Stichpunkt.Views;
 
@@ -13,25 +14,21 @@ public partial class GameView : UserControl
 {
     public DeckManager? deckManager;
     private Card? playerPlayedCard;
-    bool yourTurn = true;
-    string?  requiredColor;
-    int currentTurnIndex = 0;
+    bool yourTurn = true, playerCanPlay = false, newRound = false;
+    string? requiredColor;
+    int currentTurnIndex = 0, allCardPlayed = 0;
+    PlayedCard? roundWinner;
 
-    private Card? playedEnemy1Card;
-    private Card? playedEnemy2Card;
-    private Card? playedEnemy3Card;
-    private Card? yourPlayedCard;
+    public List<PlayedCard> currentRound = new();
 
     private List<List<Card>>? order;
-    bool playerCanPlay = false;
 
 
     public GameView()
     {
         InitializeComponent();
         deckManager = new DeckManager();
-        
-        ShowTrumpOrder(GameManager.TrumpOrder());
+        ShowTrumpOrder(deckManager.Order);
         deckManager.DealStartHands();
         ShowPlayerHandCards(deckManager.PlayerHand);
         ShowEnemy1HandCards(deckManager.Enemy1Hand);
@@ -41,6 +38,22 @@ public partial class GameView : UserControl
 
         //Runden Start
         ContinueTurn();
+
+    }
+
+
+    private void NewGame()
+    {
+        currentTurnIndex = 0;
+        deckManager = new DeckManager();
+        ShowTrumpOrder(deckManager.Order);
+        deckManager.DealStartHands();
+        ShowPlayerHandCards(deckManager.PlayerHand);
+        ShowEnemy1HandCards(deckManager.Enemy1Hand);
+        ShowEnemy2HandCards(deckManager.Enemy2Hand);
+        ShowEnemy3HandCards(deckManager.Enemy3Hand);
+        order = GameManager.chooseOrder(deckManager);
+        ContinueTurn();
     }
 
 
@@ -48,139 +61,195 @@ public partial class GameView : UserControl
 
 
 
-
-
-        
-//KartenZug
-private void ContinueTurn()
-{
-    while (currentTurnIndex < order.Count)
-{
-    Card? playedCard = GameManager.TurnRound(order,out yourTurn,currentTurnIndex,deckManager,requiredColor);
-
-    if (yourTurn)
+    //KartenZug
+    private async void ContinueTurn()
     {
-        playerCanPlay = true;
-        return;
-    }
-
-    if (playedCard == null)
-    {
-        return;
-    }
-
-    EnemyCardPlay(order, currentTurnIndex, deckManager, playedCard);
-
-    if (requiredColor == null)
-    {
-        requiredColor = playedCard.Color;
-    }
-
-    currentTurnIndex++;
-}
-
-}
-//Methode für Kartenauswahl
-private void HandCard_Tapped(object? sender, TappedEventArgs e)
-{
-    if(playerCanPlay == true)
-    {
-    Border? clickedBorder = sender as Border;
-
-    if (clickedBorder == null)
-        return;
-
-    int handIndex = int.Parse(clickedBorder.Tag!.ToString()!);
-
-    Image[] handImages =
-    {
-        HandCard0,
-        HandCard1,
-        HandCard2,
-        HandCard3,
-        HandCard4,
-        HandCard5,
-        HandCard6
-    };
-
-    Card playedCard = deckManager.PlayerHand[handIndex];
-
-bool canPlay = CardRules.CanPlayCard(
-    playedCard,
-    deckManager.PlayerHand,
-    requiredColor );
-
-if (canPlay == false)
-{
-    return;
-}
-
-    playerPlayedCard = playedCard;
-
-    yourPlayedCard = playedCard;
-
-    PlayedCardPlayer.Source = handImages[handIndex].Source;
-    
-    if (requiredColor == null)
+        while (currentTurnIndex < order.Count)
         {
-        requiredColor = playedCard.Color;
+            Console.WriteLine("---- Schleifendurchlauf ----");
+            Console.WriteLine($"currentTurnIndex: {currentTurnIndex}");
+            Console.WriteLine($"order[currentTurnIndex]: {order[currentTurnIndex]}");
+
+            Card? playedCard = GameManager.TurnRound(
+                order,
+                out yourTurn,
+                currentTurnIndex,
+                deckManager,
+                requiredColor
+            );
+
+            Console.WriteLine($"yourTurn: {yourTurn}");
+            Console.WriteLine($"playedCard == null: {playedCard == null}");
+
+            if (playedCard != null)
+            {
+                Console.WriteLine($"playedCard: {playedCard.Name} | {playedCard.Color} | {playedCard.Value}");
+            }
+
+            if (yourTurn)
+            {
+                Console.WriteLine("STOP: Spieler ist dran");
+                playerCanPlay = true;
+
+                string fullPath = "avares://Stichpunkt/Assets/deinZug.png";
+                ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+                ActionField.IsVisible = true;
+
+                return;
+            }
+
+            if (playedCard == null)
+            {
+                Console.WriteLine("STOP: playedCard ist null");
+                return;
+            }
+
+            Console.WriteLine("Vor EnemyCardPlay");
+
+            if (currentTurnIndex != 0)
+                await Task.Delay(1000);
+
+            EnemyCardPlay(order, currentTurnIndex, deckManager, playedCard);
+
+            Console.WriteLine("Nach EnemyCardPlay");
+
+            if (requiredColor == null && playedCard.Color != "Neutral")
+            {
+                requiredColor = playedCard.Color;
+                Console.WriteLine($"requiredColor gesetzt: {requiredColor}");
+            }
+
+            Console.WriteLine($"Aktuelle currentRound.Count: {currentRound.Count}");
+
+            if (CheckRoundEnd())
+            {
+                return;
+            }
+
+
+            currentTurnIndex++;
+
+            Console.WriteLine($"currentTurnIndex nach ++: {currentTurnIndex}");
         }
 
-    deckManager.PlayerHand.RemoveAt(handIndex);
+    }
+    //Methode für Kartenauswahl
+    private void HandCard_Tapped(object? sender, TappedEventArgs e)
+    {
+        if (playerCanPlay == true)
+        {
 
-    ShowPlayerHandCards(deckManager.PlayerHand);
 
-    currentTurnIndex++;
-    playerCanPlay = false;
-    ContinueTurn();
-}
-else return;
-}
 
-private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex,DeckManager deckManager, Card playedCard)
+            Border? clickedBorder = sender as Border;
+
+            if (clickedBorder == null)
+                return;
+
+            int handIndex = int.Parse(clickedBorder.Tag!.ToString()!);
+
+            Image[] handImages =
+            {
+            HandCard0,
+            HandCard1,
+            HandCard2,
+            HandCard3,
+            HandCard4,
+            HandCard5,
+            HandCard6
+    };
+
+            Console.WriteLine($"Index: {handIndex}");
+            Console.WriteLine($"Handkarten: {deckManager.PlayerHand.Count}");
+            if (handIndex < 0 || handIndex >= deckManager.PlayerHand.Count)
+                {
+                Console.WriteLine($"Ungültiger Index: {handIndex}, Count: {deckManager.PlayerHand.Count}");
+                return;
+                }
+            Card playedCard = deckManager.PlayerHand[handIndex];
+
+            bool canPlay = CardRules.CanPlayCard(
+                playedCard,
+                deckManager.PlayerHand,
+                requiredColor);
+
+            if (canPlay == false)
+            {
+                return;
+            }
+
+            playerPlayedCard = playedCard;
+
+            currentRound.Add(new PlayedCard(playerPlayedCard, "Player", currentRound.Count));
+
+            PlayedCardPlayer.Source = handImages[handIndex].Source;
+
+            if (requiredColor == null && playedCard.Color != "Neutral")
+            {
+                requiredColor = playedCard.Color;
+            }
+
+            deckManager.PlayerHand.RemoveAt(handIndex);
+
+            ShowPlayerHandCards(deckManager.PlayerHand);
+            if (CheckRoundEnd())
+            {
+                return;
+            }
+
+            if(currentTurnIndex != 4) currentTurnIndex++;
+            playerCanPlay = false;
+            ActionField.Source = null;
+            ActionField.IsVisible = false;
+            ContinueTurn();
+        }
+        else return;
+    }
+    //Methode zum anzeigen und zordnen der Gespieleten KI Karte
+    private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex, DeckManager deckManager, Card playedCard)
     {
         string path = $"avares://Stichpunkt/Assets/Cards/{playedCard.ImagePath}";
-        
+
         if (Order[currentTurnIndex] == deckManager.Enemy1Hand)
         {
-            playedEnemy1Card = playedCard;
+            currentRound.Add(new PlayedCard(playedCard, "Enemy1", currentRound.Count));
             PlayedEnemy1.Source = new Bitmap(AssetLoader.Open(new Uri(path)));
             ShowEnemy1HandCards(Order[currentTurnIndex]);
         }
         else if (Order[currentTurnIndex] == deckManager.Enemy2Hand)
         {
-            playedEnemy2Card = playedCard;
+            currentRound.Add(new PlayedCard(playedCard, "Enemy2", currentRound.Count));
             PlayedEnemy2.Source = new Bitmap(AssetLoader.Open(new Uri(path)));
             ShowEnemy2HandCards(Order[currentTurnIndex]);
         }
         else if (Order[currentTurnIndex] == deckManager.Enemy3Hand)
         {
-            playedEnemy3Card = playedCard;
+            currentRound.Add(new PlayedCard(playedCard, "Enemy3", currentRound.Count));
             PlayedEnemy3.Source = new Bitmap(AssetLoader.Open(new Uri(path)));
             ShowEnemy3HandCards(Order[currentTurnIndex]);
         }
     }
-// Anzeige der Hände und Trumpf Folge
+
+    // Anzeige der Hände und Trumpf Folge
     private void ShowPlayerHandCards(List<Card> handCards)
     {
         Image[] imageFieldsPlayer =
         {
-        HandCard0,
-        HandCard1,
-        HandCard2,
-        HandCard3,
-        HandCard4,
-        HandCard5,
-        HandCard6
-        };
+    HandCard0,
+    HandCard1,
+    HandCard2,
+    HandCard3,
+    HandCard4,
+    HandCard5,
+    HandCard6
+    };
         foreach (Image image in imageFieldsPlayer)
         {
-        image.Source = null;
+            image.Source = null;
         }
         for (int i = 0; i < handCards.Count && i < imageFieldsPlayer.Length; i++)
         {
             string fullPath = $"avares://Stichpunkt/Assets/Cards/{handCards[i].ImagePath}";
-
             imageFieldsPlayer[i].Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
         }
     }
@@ -188,17 +257,17 @@ private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex,DeckMana
     {
         Image[] imageFieldsPlayer =
         {
-        EnemyHandCard0,
-        EnemyHandCard1,
-        EnemyHandCard2,
-        EnemyHandCard3,
-        EnemyHandCard4,
-        EnemyHandCard5,
-        EnemyHandCard6,
-        };
-                foreach (Image image in imageFieldsPlayer)
+    EnemyHandCard0,
+    EnemyHandCard1,
+    EnemyHandCard2,
+    EnemyHandCard3,
+    EnemyHandCard4,
+    EnemyHandCard5,
+    EnemyHandCard6,
+    };
+        foreach (Image image in imageFieldsPlayer)
         {
-        image.Source = null;
+            image.Source = null;
         }
         for (int i = 0; i < enemy1Cards.Count && i < imageFieldsPlayer.Length; i++)
         {
@@ -222,7 +291,7 @@ private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex,DeckMana
 
         foreach (Image image in imageFieldsPlayer)
         {
-        image.Source = null;
+            image.Source = null;
         }
         for (int i = 0; i < enemy2Cards.Count && i < imageFieldsPlayer.Length; i++)
         {
@@ -245,7 +314,7 @@ private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex,DeckMana
         };
         foreach (Image image in imageFieldsPlayer)
         {
-        image.Source = null;
+            image.Source = null;
         }
         for (int i = 0; i < enemy1Cards.Count && i < imageFieldsPlayer.Length; i++)
         {
@@ -268,6 +337,99 @@ private void EnemyCardPlay(List<List<Card>> Order, int currentTurnIndex,DeckMana
             string fullPath = $"avares://Stichpunkt/Assets/Trumpf/{TrumpOrder[i].ImagePath}.png";
 
             TrumpShow[i].Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+        }
+
+    }
+    // Sieger Anzeigen
+    private void ShowRoundWinner(PlayedCard roundWinner)
+    {
+        if (roundWinner.PlayerName == "Player")
+        {
+            string fullPath = "avares://Stichpunkt/Assets/RoundWin/0.png";
+
+            ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+            ActionField.IsVisible = true;
+        }
+        else if (roundWinner.PlayerName == "Enemy1")
+        {
+            string fullPath = "avares://Stichpunkt/Assets/RoundWin/1.png";
+
+            ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+            ActionField.IsVisible = true;
+        }
+        else if (roundWinner.PlayerName == "Enemy2")
+        {
+            string fullPath = "avares://Stichpunkt/Assets/RoundWin/2.png";
+
+            ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+            ActionField.IsVisible = true;
+        }
+        else if (roundWinner.PlayerName == "Enemy3")
+        {
+            string fullPath = "avares://Stichpunkt/Assets/RoundWin/3.png";
+
+            ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+            ActionField.IsVisible = true;
+        }
+    }
+
+    private bool CheckRoundEnd()
+    {
+        if (currentRound.Count == 4)
+        {
+            foreach (var played in currentRound)
+            {
+                Console.WriteLine($"{played.PlayerName}: {played.Card.Name} | {played.Card.Color} | {played.Card.Value}| {played.Card.TrumpOrder}");
+            }
+
+            roundWinner = Win.RoundWinner(currentRound);
+
+            if (roundWinner != null)
+            {
+                ShowRoundWinner(roundWinner);
+                nextRound.IsVisible = true;
+                nextRound.IsHitTestVisible = true;
+                newRound = true;
+                allCardPlayed++;
+            }
+            else
+            {
+                string fullPath = "avares://Stichpunkt/Assets/naechsteRunde.png";
+
+                ActionField.Source = new Bitmap(AssetLoader.Open(new Uri(fullPath)));
+                ActionField.IsVisible = true;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void NextRound_Tapped(object? sender, TappedEventArgs e)
+    {
+        if (newRound)
+        {
+            currentTurnIndex = 0;
+            requiredColor = null;
+            currentRound.Clear();
+            newRound = false;
+            playerCanPlay = false;
+
+            PlayedEnemy1.Source = null;
+            PlayedEnemy2.Source = null;
+            PlayedEnemy3.Source = null;
+            PlayedCardPlayer.Source = null;
+
+            ActionField.IsVisible = false;
+            nextRound.IsVisible = false;
+
+            if (allCardPlayed <= 6) ContinueTurn();
+            else
+            {
+                allCardPlayed = 0;
+                NewGame();
+            }
         }
 
     }

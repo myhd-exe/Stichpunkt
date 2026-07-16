@@ -7,7 +7,7 @@ namespace Stichpunkt.Models
 {
     public class Deck
     {
-        public static List<Card> CreateDeck()
+        public static List<Card> CreateDeck(List<Trumpf> trumpOrder)
         {
             List<Card> deck = new List<Card>();
             string[] color = {"Orks","Daemonen","Menschen","Goblins","Neutral"};
@@ -18,7 +18,7 @@ namespace Stichpunkt.Models
                 {
                     for (int j = 0; j < 12; j++)
                     {
-                        deck.Add(new Card(color[i]+j,color[i],j+1,$"{color[i]}/{j+1}.png",i+1));
+                        deck.Add(new Card(color[i]+" "+j,color[i],j+1,$"{color[i]}/{j+1}.png",trumpOrder[i].TrumpfNumber+1));
                     }
                 }
                 else
@@ -26,7 +26,7 @@ namespace Stichpunkt.Models
                     for(int j = 0; j < 4; j++)
                     {
                         deck.Add(new Card(color[i]+"1."+j,color[i],0,$"{color[i]}/1.png",0));
-                        deck.Add(new Card(color[i]+"2."+j,color[i],0,$"{color[i]}/2.png",5));
+                        deck.Add(new Card(color[i]+"2."+j,color[i],13,$"{color[i]}/2.png",5));
                     }
                 }
             }

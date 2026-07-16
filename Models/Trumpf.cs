@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Stichpunkt.Models
 {
-    internal class Trumpf
+    public class Trumpf
     {
         public string Classname { get; private set; }
         public int TrumpfNumber { get; private set; }
