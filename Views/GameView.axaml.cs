@@ -23,7 +23,6 @@ public partial class GameView : UserControl
 
     private List<List<Card>>? order;
 
-
     public GameView()
     {
         InitializeComponent();
